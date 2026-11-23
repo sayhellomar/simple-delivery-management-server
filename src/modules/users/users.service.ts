@@ -17,8 +17,27 @@ async function createUserToDB(payload: User) {
     return result;
 }
 
-async function getUserFromDB() {}
+async function getUsersFromDB() {
+    const result = await pool.query(`
+        SELECT name, email, role, is_active, created_at, updated_at FROM users
+    `);
+    return result;
+}
+
+async function getUserFromDB(id: number) {
+    const result = await pool.query(
+        `
+        SELECT name, email, role, is_active, created_at, updated_at FROM users
+        WHERE id = $1
+    `,
+        [id],
+    );
+
+    return result;
+}
 
 export const usersService = {
     createUserToDB,
+    getUsersFromDB,
+    getUserFromDB,
 };

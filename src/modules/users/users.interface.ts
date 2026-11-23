@@ -11,6 +11,8 @@ export interface User {
     password: string;
     role: Role;
     is_active: boolean;
+    created_at: Date;
+    updated_at: Date;
 }
 
-export type Data = Insert;
+export type Data = Insert | User[] | User;
