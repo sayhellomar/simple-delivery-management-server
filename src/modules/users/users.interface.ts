@@ -15,4 +15,9 @@ export interface User {
     updated_at: Date;
 }
 
-export type Data = Insert | User[] | User;
+type LoggedInUser = {
+    user: Pick<User, "id" | "email" | "role" | "is_active">;
+    accessToken: string;
+};
+
+export type Data = Insert | User[] | User | LoggedInUser;
