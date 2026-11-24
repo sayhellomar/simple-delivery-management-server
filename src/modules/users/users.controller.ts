@@ -59,8 +59,42 @@ async function getUser(req: Request, res: Response) {
     }
 }
 
+async function updateUser(req: Request, res: Response) {
+    try {
+        const { id } = req.params;
+        const result = await usersService.updateUserToDB(req.body, Number(id));
+        if (result.rowCount === 0) {
+            return sendResponse(res, 404, false, "User not found");
+        }
+        sendResponse(
+            res,
+            200,
+            true,
+            "Your profile updated successfully",
+            result.rows[0],
+        );
+    } catch (error: any) {
+        sendResponse(res, 500, false, error.message);
+    }
+}
+
+async function deleteUser(req: Request, res: Response) {
+    try {
+        const { id } = req.params;
+        const result = await usersService.deleteUserFromDB(Number(id));
+        if (result.rowCount === 0) {
+            return sendResponse(res, 404, false, "User not found");
+        }
+        sendResponse(res, 200, true, "User deleted successfully");
+    } catch (error: any) {
+        sendResponse(res, 500, false, error.message);
+    }
+}
+
 export const usersController = {
     createUser,
     getUsers,
     getUser,
+    updateUser,
+    deleteUser,
 };
