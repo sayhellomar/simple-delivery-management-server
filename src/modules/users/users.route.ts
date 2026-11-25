@@ -13,7 +13,11 @@ router.get(
     auth(USER_ROLES.admin, USER_ROLES.sender),
     usersController.getUser,
 );
-router.patch("/:id", usersController.updateUser);
+router.patch(
+    "/:id",
+    auth(USER_ROLES.admin, USER_ROLES.sender, USER_ROLES.rider),
+    usersController.updateUser,
+);
 router.delete("/:id", usersController.deleteUser);
 
 export const usersRoute = router;

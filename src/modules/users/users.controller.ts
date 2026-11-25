@@ -62,7 +62,12 @@ async function getUser(req: Request, res: Response) {
 async function updateUser(req: Request, res: Response) {
     try {
         const { id } = req.params;
-        const result = await usersService.updateUserToDB(req.body, Number(id));
+        const accessToken = req.headers?.authorization;
+        const result = await usersService.updateUserToDB(
+            req.body,
+            accessToken as string,
+            Number(id),
+        );
         if (result.rowCount === 0) {
             return sendResponse(res, 404, false, "User not found");
         }
@@ -74,7 +79,7 @@ async function updateUser(req: Request, res: Response) {
             result.rows[0],
         );
     } catch (error: any) {
-        sendResponse(res, 500, false, error.message);
+        sendResponse(res, error?.cause?.code || 500, false, error.message);
     }
 }
 

@@ -16,7 +16,7 @@ export interface User {
 }
 
 type LoggedInUser = {
-    user: Pick<User, "id" | "email" | "role" | "is_active">;
+    user?: Pick<User, "id" | "email" | "role" | "is_active">;
     accessToken: string;
 };
 
